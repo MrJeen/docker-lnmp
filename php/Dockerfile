@@ -17,20 +17,20 @@ ARG INSTALL_PATH=/data
 ADD $PV.tar.gz /tmp
 
 RUN yum update && yum -y install gcc gcc-c++ make gd-devel libxml2-devel libcurl-devel libjpeg-devel libpng-devel openssl-devel bison \
-    && mkdir /$INSTALL_PATH \
+    && mkdir $INSTALL_PATH \
     && cd /tmp/$PV \
-    && ./configure --prefix=/$INSTALL_PATH/php \
-        --with-config-file-path=/$INSTALL_PATH/php/etc \
+    && ./configure --prefix=$INSTALL_PATH/php \
+        --with-config-file-path=$INSTALL_PATH/php/etc \
         --with-gd --with-mysqli \
         --with-openssl --with-zlib --with-curl \
         --with-jpeg-dir --with-png-dir --with-iconv \
         --enable-fpm --enable-zip --enable-mbstring \
     && make -j4 \
     && make install \
-    && cp /$INSTALL_PATH/php/etc/php-fpm.conf.default /$INSTALL_PATH/php/etc/php-fpm.conf \
-    && cp /$INSTALL_PATH/php/etc/php-fpm.d/www.conf.default /$INSTALL_PATH/php/etc/php-fpm.d/www.conf \
-    && sed -i '/;daemonize/a\daemonize = no' /$INSTALL_PATH/php/etc/php-fpm.conf \
-    && sed -i 's/127.0.0.1/0.0.0.0/g' /$INSTALL_PATH/php/etc/php-fpm.d/www.conf \
+    && cp $INSTALL_PATH/php/etc/php-fpm.conf.default $INSTALL_PATH/php/etc/php-fpm.conf \
+    && cp $INSTALL_PATH/php/etc/php-fpm.d/www.conf.default $INSTALL_PATH/php/etc/php-fpm.d/www.conf \
+    && sed -i '/;daemonize/a\daemonize = no' $INSTALL_PATH/php/etc/php-fpm.conf \
+    && sed -i 's/127.0.0.1/0.0.0.0/g' $INSTALL_PATH/php/etc/php-fpm.d/www.conf \
     && echo "${TIME_ZOME}" > /etc/timezone \
     && ln -sf /usr/share/zoneinfo/${TIME_ZOME} /etc/localtime \
     && rm -rf /tmp/php* \
@@ -38,7 +38,7 @@ RUN yum update && yum -y install gcc gcc-c++ make gd-devel libxml2-devel libcurl
     && yum -y remove gcc gcc-c++ make
 
 #设置CMD指明的命令的运行目录
-WORKDIR /$INSTALL_PATH/php/
+WORKDIR $INSTALL_PATH/php/
 
 #指定端口，使容器内的应用可以通过端口和外界交互
 EXPOSE 9000
