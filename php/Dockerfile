@@ -1,3 +1,6 @@
+
+#php
+
 #安装centos系统
 FROM centos:latest
 
@@ -10,27 +13,24 @@ ENV TIME_ZOME Asia/Shanghai
 #定义php版本，与源码包一致
 ARG PV="php-7.2.16"
 
-#安装目录
-ARG INSTALL_PATH=/data
-
 #复制php源码包到tmp目录
 ADD $PV.tar.gz /tmp
 
-RUN yum update && yum -y install gcc gcc-c++ make gd-devel libxml2-devel libcurl-devel libjpeg-devel libpng-devel openssl-devel bison \
-    && mkdir $INSTALL_PATH \
+RUN yum -y install gcc gcc-c++ make gd-devel libxml2-devel libcurl-devel libjpeg-devel libpng-devel openssl-devel bison \
+    && mkdir -p /data \
     && cd /tmp/$PV \
-    && ./configure --prefix=$INSTALL_PATH/php \
-        --with-config-file-path=$INSTALL_PATH/php/etc \
+    && ./configure --prefix=/data/php \
+        --with-config-file-path=/data/php/etc \
         --with-gd --with-mysqli \
         --with-openssl --with-zlib --with-curl \
         --with-jpeg-dir --with-png-dir --with-iconv \
         --enable-fpm --enable-zip --enable-mbstring \
-    && make -j4 \
+    && make -j 4 \
     && make install \
-    && cp $INSTALL_PATH/php/etc/php-fpm.conf.default $INSTALL_PATH/php/etc/php-fpm.conf \
-    && cp $INSTALL_PATH/php/etc/php-fpm.d/www.conf.default $INSTALL_PATH/php/etc/php-fpm.d/www.conf \
-    && sed -i '/;daemonize/a\daemonize = no' $INSTALL_PATH/php/etc/php-fpm.conf \
-    && sed -i 's/127.0.0.1/0.0.0.0/g' $INSTALL_PATH/php/etc/php-fpm.d/www.conf \
+    && cp /data/php/etc/php-fpm.conf.default /data/php/etc/php-fpm.conf \
+    && cp /data/php/etc/php-fpm.d/www.conf.default /data/php/etc/php-fpm.d/www.conf \
+    && sed -i '/;daemonize/a\daemonize = no' /data/php/etc/php-fpm.conf \
+    && sed -i 's/127.0.0.1/0.0.0.0/g' /data/php/etc/php-fpm.d/www.conf \
     && echo "${TIME_ZOME}" > /etc/timezone \
     && ln -sf /usr/share/zoneinfo/${TIME_ZOME} /etc/localtime \
     && rm -rf /tmp/php* \
@@ -38,7 +38,7 @@ RUN yum update && yum -y install gcc gcc-c++ make gd-devel libxml2-devel libcurl
     && yum -y remove gcc gcc-c++ make
 
 #设置CMD指明的命令的运行目录
-WORKDIR $INSTALL_PATH/php/
+WORKDIR /data/php/
 
 #指定端口，使容器内的应用可以通过端口和外界交互
 EXPOSE 9000
