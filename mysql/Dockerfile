@@ -19,10 +19,10 @@ RUN yum -y install make gcc gcc-c++ cmake bison-devel ncurses-devel bison perl p
 	&& useradd -r -g mysql -s /bin/false mysql \
 	&& mkdir -p /data \
     && cd /tmp/$PV \
-	&& cmake -DCMAKE_INSTALL_PREFIX=/data/mysql \  #mysql安装目录
-	   -DMYSQL_DATADIR=/data/mysql/data \ #数据库文件目录
+	&& cmake -DCMAKE_INSTALL_PREFIX=/data/mysql \  
+	   -DMYSQL_DATADIR=/data/mysql/data \ 
 	   -DMYSQL_USER=mysql \ 
-	   -DSYSCONFDIR=/data/mysql/etc \ #配置文件目录
+	   -DSYSCONFDIR=/data/mysql/etc \ 
 	   -DDEFAULT_CHARSET=utf8 \ 
 	   -DDEFAULT_COLLATION=utf8_general_ci \ 
 	   -DWITH_BOOST=boost 
