@@ -25,7 +25,7 @@ RUN yum -y install make gcc gcc-c++ cmake bison-devel ncurses-devel bison perl p
 	   -DSYSCONFDIR=/data/mysql/etc \ 
 	   -DDEFAULT_CHARSET=utf8 \ 
 	   -DDEFAULT_COLLATION=utf8_general_ci \ 
-	   -DWITH_BOOST=boost 
+	   -DWITH_BOOST=boost \
 	&& make -j 2 \
     && make install \
 	&& cd /data/mysql \
