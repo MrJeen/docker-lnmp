@@ -27,11 +27,9 @@
 
 5、下载mysql镜像
 
-​	源码安装生成的镜像文件太大，而且操作步骤比较复杂，这里弃用了源码安装，而选择直接使用官方镜像。
+​	源码安装生成的镜像文件太大，而且操作步骤比较复杂，耗时很长，这里弃用了源码安装，而选择直接使用官方镜像。
 
-​	docker pull mysql:5.7.25
-
-​	docker images
+​		docker pull mysql:5.7.25
 
 6、创建并启动容器
 
@@ -52,19 +50,6 @@
 ​	（3）查看容器是否都成功启动
 
 ​		docker ps
-
-​	（4）修改mysql的密码加密方式为mysql_native_password
-
-​		vim /data/mysql/conf/docker_mysql.cnf
-
-​			[mysqld]
-​			default-authentication-plugin=mysql_native_password	
-
-​		如果不修改加密方式的话，低版本的mysql客户端登陆时会报错
-
-​		重启mysql容器
-
-​		docker restart mysql
 
 
 

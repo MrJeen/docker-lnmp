@@ -3,11 +3,9 @@
 function mysql()
 {
     docker run --name mysql --restart=always --net lnmp -p 3306:3306 \
-    -v /data/mysql/data:/data/mysql/data \
-	-v /data/mysql/conf:/data/mysql/etc/conf \
-    -v /data/mysql/logs:/logs \
+    -v /data/mysql/data:/var/lib/mysql \
     -e MYSQL_ROOT_PASSWORD=test123456 \
-    -d mysql:5.7.25
+    -d mysql:5.7.25 --character-set-server=utf8
 }
 
 function php()
@@ -25,4 +23,5 @@ function nginx()
     -v /data/nginx/logs:/data/nginx/logs \
     -d nginx:1.15.9
 }
-$1
+
+$1 
