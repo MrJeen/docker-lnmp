@@ -1,15 +1,10 @@
-# docker-lnmp
-
-
-#复制容器的目录到宿主机   docker cp <containerId>:/file/path/within/container /host/path/target
-
-#复制宿主机目录到容器   docker cp /host/path/target <containerId>:/file/path/within/container
+# docker-lnm
 
 #复制data目录到宿主机下
 
 
 
-1、安装php-fpm
+1、安装php-fpm 
 
 
 
@@ -17,7 +12,7 @@
 
 
 
-​	docker run --name php -p 9000:9000 \
+​	docker run --name php -p 9000:9000 -p 11211:11211 -p 6379:6379\
 
 ​	-v /data/php/etc/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf \
 
@@ -57,7 +52,7 @@
 
 ​	
 
-​	#配置nginx  /data/nginx/conf/conf.d/default.conf
+​	#配置nginx  /data/nginx/conf/conf.d/default.conf（data文件夹里已配置好）
 
 ​	
 
@@ -99,15 +94,7 @@
 
 
 
-4、查看mysql的IP
-
-docker inspect mysql | grep "IPAddress"
-
-mysqli_connect("172.17.0.4","root","123456","test");  #这里的IP要填mysql容器的IP
-
-
-
-5、安装PHP扩展  <https://hub.docker.com/_/php>
+4、安装PHP扩展  <https://hub.docker.com/_/php>
 
 docker exec -it php /bin/bash
 
@@ -130,3 +117,29 @@ apt-get update && apt-get install -y libmemcached-dev zlib1g-dev
 pecl install memcached-3.1.3
 
 docker-php-ext-enable memcached
+
+
+
+使用memcached
+
+$memcache = new memcached();
+
+$memcache->addServer("172.17.0.2","11211");
+
+
+
+5、连接数据库
+
+查看mysql的IP
+
+docker inspect mysql | grep "IPAddress"
+
+mysqli_connect("172.17.0.4","root","123456","test");  #这里的IP要填mysql容器的IP
+
+
+
+6、
+
+#复制容器的目录到宿主机   docker cp <containerId>:/file/path/within/container /host/path/target
+
+#复制宿主机目录到容器   docker cp /host/path/target <containerId>:/file/path/within/container
