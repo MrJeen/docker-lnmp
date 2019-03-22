@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#data
-git clone https://github.com/MrJeen/docker-lnmp.git \
-
 #php-fpm
 docker pull php:7.2.16-fpm \
 docker run --name php -p 9000:9000 \
