@@ -1,4 +1,4 @@
-# docker-lnm
+# docker-lnmp
 
 #复制data目录到宿主机下
 
